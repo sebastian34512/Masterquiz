@@ -14,6 +14,8 @@
   </ion-header>
 
   <div id="container">
-    <p>Das ist so cool. Test. Second Test.</p>
+    <p>Quizname: {{data.currentQuiz.title}}</p>
+    <p>Anzahl der Fragen: {{data.currentQuiz.questions.length}}</p>
+    <ion-button shape="round" color="tertiary" fill="outline" (click)="showList()">Fragen bearbeiten</ion-button>
   </div>
 </ion-content>

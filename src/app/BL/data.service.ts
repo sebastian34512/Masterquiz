@@ -17,14 +17,25 @@ export class DataService {
     questions: []
   };
   constructor() {
-    this.currentQuiz.questions.push({
-      id: '1',
-      title: 'Wie viele Beine hat ein Hund?',
-      a1: '1',
-      a2: '2',
-      a3: '3',
-      a4: '4',
-      correct: 4,
-    });
+    this.currentQuiz.questions.push(
+      {
+        id: '1',
+        title: 'Wie viele Beine hat ein Hund?',
+        a1: '1',
+        a2: '2',
+        a3: '3',
+        a4: '4',
+        correct: 4,
+      },
+      {
+        id: '2',
+        title: 'Wie viele Beine hat ein Vogel?',
+        a1: '1',
+        a2: '2',
+        a3: '3',
+        a4: '4',
+        correct: 2,
+      },
+    );
   }
 }

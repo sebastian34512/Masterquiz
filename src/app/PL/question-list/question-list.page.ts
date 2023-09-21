@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { DataService } from 'src/app/BL/data.service';
 
 @Component({
   selector: 'app-question-list',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestionListPage implements OnInit {
 
-  constructor() { }
+  constructor(public data: DataService, private navCtrl: NavController) { }
 
   ngOnInit() {
   }
