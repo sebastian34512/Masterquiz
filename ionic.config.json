@@ -1,0 +1,7 @@
+{
+  "name": "Masterquiz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
