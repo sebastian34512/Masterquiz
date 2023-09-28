@@ -1,0 +1,24 @@
+{
+    "id": "1",
+    "title": "sinnloser Quiz",
+    "questions": [
+        {
+            "id": "9d1228b0-b2a0-414d-b843-c12a7f8a7536",
+            "title": "Wie viele Beine hat ein Hund",
+            "a1": "1",
+            "a2": "2",
+            "a3": "3",
+            "a4": "4",
+            "correct": "4"
+        },
+        {
+            "id": "9d1228b0-b2a0-414d-b843-c12a7f8a7535",
+            "title": "Wie viele Beine hat ein Strauß",
+            "a1": "1",
+            "a2": "2",
+            "a3": "3",
+            "a4": "4",
+            "correct": "2"
+        }
+    ]
+}

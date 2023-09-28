@@ -3,6 +3,7 @@ import { Quiz } from './quiz';
 import { v4 as uuidv4 } from 'uuid';
 import { Question } from './question';
 import { Preferences } from '@capacitor/preferences';
+import { CapacitorHttp, HttpResponse } from '@capacitor/core';
 
 
 //injectable objekte können nicht mit new erstellt werden, 
@@ -88,5 +89,15 @@ export class DataService {
     if (result.value) {
       this.currentQuiz = JSON.parse(result.value);
     }
+  }
+
+  public async loadByHTTP() {
+    fetch('/assets/einQuiz.json')
+      .then(response => response.json())
+      .then(data => {
+        this.currentQuiz = data;
+        console.log(data);
+      });
+    //const response: HttpResponse = await CapacitorHttp.get({ url: '/assets/einQuiz.json' });
   }
 }
