@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Quiz } from './quiz';
 import { v4 as uuidv4 } from 'uuid';
 import { Question } from './question';
+import { Preferences } from '@capacitor/preferences';
 
 
 //injectable objekte können nicht mit new erstellt werden, 
@@ -19,26 +20,27 @@ export class DataService {
     questions: []
   };
   constructor() {
-    this.currentQuiz.questions.push(
-      {
-        id: '1',
-        title: 'Wie viele Beine hat ein Hund?',
-        a1: '1',
-        a2: '2',
-        a3: '3',
-        a4: '4',
-        correct: 4,
-      },
-      {
-        id: '2',
-        title: 'Wie viele Beine hat ein Vogel?',
-        a1: '1',
-        a2: '2',
-        a3: '3',
-        a4: '4',
-        correct: 2,
-      },
-    );
+    this.loadQuestion();
+    // this.currentQuiz.questions.push(
+    //   {
+    //     id: '1',
+    //     title: 'Wie viele Beine hat ein Hund?',
+    //     a1: '1',
+    //     a2: '2',
+    //     a3: '3',
+    //     a4: '4',
+    //     correct: 4,
+    //   },
+    //   {
+    //     id: '2',
+    //     title: 'Wie viele Beine hat ein Vogel?',
+    //     a1: '1',
+    //     a2: '2',
+    //     a3: '3',
+    //     a4: '4',
+    //     correct: 2,
+    //   },
+    // );
   }
   public newQuestion(): Question {
     return {
@@ -59,9 +61,23 @@ export class DataService {
   public addQuestion(question: Question) {
     question.id = uuidv4();
     this.currentQuiz.questions.push(question);
+    this.safeQuestion();
   }
 
-  public deleteQuestion(id: string) {
-    this.currentQuiz.questions = this.currentQuiz.questions.filter(q => q.id != id);
+  public deleteQuestion(question: Question) {
+    this.currentQuiz.questions = this.currentQuiz.questions.filter(q => q.id != question.id);
+    this.safeQuestion();
+  }
+
+  public safeQuestion() {
+    Preferences.set({ key: 'quiz', value: JSON.stringify(this.currentQuiz) });
+  }
+
+  public loadQuestion() {
+    Preferences.get({ key: 'quiz' }).then((result) => {
+      if (result.value) {
+        this.currentQuiz = JSON.parse(result.value);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { DataService } from 'src/app/BL/data.service';
+import { Question } from 'src/app/BL/question';
 
 @Component({
   selector: 'app-question-list',
@@ -18,8 +19,8 @@ export class QuestionListPage implements OnInit {
     this.navCtrl.navigateForward(`/question/${id}`);
   }
 
-  public delete(id: string) {
-    this.data.deleteQuestion(id);
+  public delete(q: Question) {
+    this.data.deleteQuestion(q);
   }
 
 }

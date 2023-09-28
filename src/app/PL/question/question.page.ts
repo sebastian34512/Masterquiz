@@ -27,6 +27,8 @@ export class QuestionPage implements OnInit {
   ionViewWillLeave() {
     if (this.question.id == "" && this.question.title.length >= 1) {
       this.data.addQuestion(this.question);
+    } else {
+      this.data.safeQuestion();
     }
   }
 
