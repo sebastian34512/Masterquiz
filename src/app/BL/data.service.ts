@@ -75,9 +75,18 @@ export class DataService {
 
   public loadQuestion() {
     Preferences.get({ key: 'quiz' }).then((result) => {
-      if (result.value) {
-        this.currentQuiz = JSON.parse(result.value);
-      }
+      // if (result.value) {
+      this.currentQuiz = JSON.parse(result.value ?? "");
+      // }
+    }).catch((error) => {
+      console.log("master quiz nicht gefunden");
     });
+  }
+
+  public async otherloadQuestion() {
+    let result = await Preferences.get({ key: 'quiz' });
+    if (result.value) {
+      this.currentQuiz = JSON.parse(result.value);
+    }
   }
 }
