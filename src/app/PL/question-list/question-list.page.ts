@@ -18,4 +18,8 @@ export class QuestionListPage implements OnInit {
     this.navCtrl.navigateForward(`/question/${id}`);
   }
 
+  public delete(id: string) {
+    this.data.deleteQuestion(id);
+  }
+
 }
