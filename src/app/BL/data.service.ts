@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Quiz } from './quiz';
+import { Question } from './question';
 
 
 //injectable objekte können nicht mit new erstellt werden, 
@@ -37,5 +38,16 @@ export class DataService {
         correct: 2,
       },
     );
+  }
+  public newQuestion(): Question {
+    return {
+      id: "",
+      title: "",
+      a1: "",
+      a2: "",
+      a3: "",
+      a4: "",
+      correct: 0,
+    }
   }
 }
