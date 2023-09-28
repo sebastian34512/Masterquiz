@@ -14,4 +14,8 @@ export class QuestionListPage implements OnInit {
   ngOnInit() {
   }
 
+  public show(id: string) {
+    this.navCtrl.navigateForward(`/question/${id}`);
+  }
+
 }

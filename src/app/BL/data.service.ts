@@ -50,4 +50,12 @@ export class DataService {
       correct: 0,
     }
   }
+
+  public getQuestion(id: string): Question {
+    return this.currentQuiz.questions.find(q => q.id == id) ?? this.newQuestion();
+  }
+
+  public addQuestion(question: Question) {
+    this.currentQuiz.questions.push(question);
+  }
 }

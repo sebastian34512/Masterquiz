@@ -4,6 +4,9 @@
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
     <ion-title>QuestionList</ion-title>
+    <ion-buttons slot="end">
+      <ion-button icon-only (click)="show('')"><ion-icon name="add-circle-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +17,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-list>
-    <ion-item *ngFor="let q of data.currentQuiz.questions">
+    <ion-item *ngFor="let q of data.currentQuiz.questions" (click)="show(q.id)">
       <ion-label>{{q.title}}</ion-label>
     </ion-item>
   </ion-list>
