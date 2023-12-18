@@ -3,7 +3,7 @@
 describe('QuestionList Component', () => {
   beforeEach(() => {
     // Öffne die Anwendung vor jedem Test
-    cy.visit('http://localhost:8100'); // Passe die URL an deine lokale Entwicklungsumgebung an
+    cy.visit('/'); // Passe die URL an deine lokale Entwicklungsumgebung an
     cy.viewport('iphone-5');
 
     //get all ion-buttons
