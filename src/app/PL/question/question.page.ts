@@ -12,24 +12,27 @@ import { Question } from 'src/app/BL/question';
 export class QuestionPage implements OnInit {
   public question: Question;
 
-  constructor(public data: DataService, private navCtrl: NavController,
-    private route: ActivatedRoute) {
+  constructor(
+    public data: DataService,
+    private navCtrl: NavController,
+    private route: ActivatedRoute
+  ) {
     let questionId = this.route.snapshot.paramMap.get('id');
-    if (!questionId)
-      this.question = this.data.newQuestion();
-    else
-      this.question = this.data.getQuestion(questionId);
+    if (!questionId) this.question = this.data.newQuestion();
+    else this.question = this.data.getQuestion(questionId);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillLeave() {
-    if (this.question.id == "" && this.question.title.length >= 1) {
+    if (
+      this.question.id == '' &&
+      this.question.title.length >= 1
+      //   && this.question.correct != 0
+    ) {
       this.data.addQuestion(this.question);
     } else {
       this.data.safeQuestion();
     }
   }
-
 }

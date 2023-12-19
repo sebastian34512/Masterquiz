@@ -1,0 +1,145 @@
+Setup
+1.	npm install -g @angular/cli
+2.	async aus tests von komponenten entfernen (quiz, question, question-list)
+3.	bei question-page test den code in before each einfügen:
+TestBed.configureTestingModule({
+      declarations: [QuestionPage],
+      imports: [FormsModule, IonicModule], // Hinzugefügt
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: new Map().set('id', 'your_id_value'),
+            },
+          },
+        },
+      ],
+    });
+4.	bei question-list test den code in before each:
+TestBed.configureTestingModule({
+      declarations: [QuestionListPage],
+      imports: [FormsModule, IonicModule], // Hinzugefügt
+    });
+5.	data test erstellen:
+describe('DataService', () => {
+  let service: DataService;
+
+  beforeEach(() => {
+    //service = new DataService();
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(DataService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  //unit test
+  it('should add a question to currentQuiz', () => {
+    const question: Question = {
+      id: '3',
+      title: 'Wie gut können wir testen',
+      a1: 'nicht gut',
+      a2: 'so lala',
+      a3: 'ganz ok',
+      a4: 'super gut',
+      correct: 4,
+    };
+
+    service.addQuestion(question);
+
+    const addedQuestion = service.currentQuiz.questions.find(
+      (q) => q.id == question.id
+    );
+
+    expect(addedQuestion).toBeDefined();
+    expect(addedQuestion?.title).toBe('Wie gut können wir testen');
+  });
+
+  //integration test
+  it('should safe and load an added question', () => {
+    const question: Question = {
+      id: '3',
+      title: 'Wie gut können wir testen',
+      a1: 'nicht gut',
+      a2: 'so lala',
+      a3: 'ganz ok',
+      a4: 'super gut',
+      correct: 4,
+    };
+
+    const quiz: Quiz = {
+      id: '1',
+      title: 'neu',
+      questions: [question],
+    };
+
+    service.addQuestion(question);
+
+    service.safeQuestion();
+
+    service.loadQuestion();
+
+    expect(service.currentQuiz).toEqual(quiz);
+  });
+});
+6.	ng test
+
+
+E2E:
+1.	npm install --save-dev cypress
+2.	package.json als script: "e2e": "cypress open"
+3.	in tsconfig.json: "sourceMap": false,
+4.	in tsconfig.json: "exclude": ["./cypress.config.ts", "node_modules", "cypress", "**/*.cy.ts"]
+5.	in einem cy.ts file: /// <reference types="cypress" />
+6.	npm run e2e
+7.	npm install --save-dev cy-mobile-commands
+
+CI:
+1.	package.json: 
+a.	startscript auf "start": "ng serve --host 0.0.0.0",
+b.	test auf "test": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
+2.	in cypress.config: baseUrl: 'http://0.0.0.0:4200'
+3.	in .github/workflows eine ci.yaml mit inhalt:
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+
+        run: npm test
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+
+
+

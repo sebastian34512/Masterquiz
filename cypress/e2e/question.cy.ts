@@ -5,8 +5,6 @@ describe('Question Component', () => {
     // Öffne die Anwendung vor jedem Test
     cy.visit('/question-list'); // Passe die URL an deine lokale Entwicklungsumgebung an
     cy.viewport('iphone-5');
-
-    cy.get('ion-button').eq(0).click();
   });
 
   it('should be empty at the beginning', () => {
@@ -14,6 +12,8 @@ describe('Question Component', () => {
   });
 
   it('should add a question on clicking the plus button', () => {
+    cy.get('ion-button').eq(0).click();
+
     cy.get('ion-item')
       .eq(1)
       .children()

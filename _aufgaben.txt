@@ -1,0 +1,5 @@
+Beispielaufgaben
+
+1.	Unit Test: überprüfen, ob die Methode getQuestion eine Frage findet.
+2.	Intigratation Test: überprüfen, ob newQuestion eine leere Frage zurückgibt, wenn getQuestion ohne Id aufgerufen wird.
+3.	End-to-End Test: Nachdem in ein leeres Quiz eine Frage hinzugefügt wird soll in der Question List die Frage erscheinen
