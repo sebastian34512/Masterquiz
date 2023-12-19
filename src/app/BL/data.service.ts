@@ -5,20 +5,18 @@ import { Question } from './question';
 import { Preferences } from '@capacitor/preferences';
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
 
-
-//injectable objekte können nicht mit new erstellt werden, 
-//sondern werden in einen anderen Konstruktor injected, und dann geschieht eine von zwei Sachen: 
-//entweder es gibt ein Objekt, dann wird das zurückgegeben, 
+//injectable objekte können nicht mit new erstellt werden,
+//sondern werden in einen anderen Konstruktor injected, und dann geschieht eine von zwei Sachen:
+//entweder es gibt ein Objekt, dann wird das zurückgegeben,
 //oder es gibt keins dann wird eins erstellt. (Singleton Pattern)
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-
   public currentQuiz: Quiz = {
     id: '1',
     title: 'neu',
-    questions: []
+    questions: [],
   };
   constructor() {
     this.loadQuestion();
@@ -45,18 +43,20 @@ export class DataService {
   }
   public newQuestion(): Question {
     return {
-      id: "",
-      title: "",
-      a1: "",
-      a2: "",
-      a3: "",
-      a4: "",
+      id: '',
+      title: '',
+      a1: '',
+      a2: '',
+      a3: '',
+      a4: '',
       correct: 0,
-    }
+    };
   }
 
   public getQuestion(id: string): Question {
-    return this.currentQuiz.questions.find(q => q.id == id) ?? this.newQuestion();
+    return (
+      this.currentQuiz.questions.find((q) => q.id == id) ?? this.newQuestion()
+    );
   }
 
   public addQuestion(question: Question) {
@@ -66,7 +66,9 @@ export class DataService {
   }
 
   public deleteQuestion(question: Question) {
-    this.currentQuiz.questions = this.currentQuiz.questions.filter(q => q.id != question.id);
+    this.currentQuiz.questions = this.currentQuiz.questions.filter(
+      (q) => q.id != question.id
+    );
     this.safeQuestion();
   }
 
@@ -75,13 +77,15 @@ export class DataService {
   }
 
   public loadQuestion() {
-    Preferences.get({ key: 'quiz' }).then((result) => {
-      // if (result.value) {
-      this.currentQuiz = JSON.parse(result.value ?? "");
-      // }
-    }).catch((error) => {
-      console.log("master quiz nicht gefunden");
-    });
+    Preferences.get({ key: 'quiz' })
+      .then((result) => {
+        // if (result.value) {
+        this.currentQuiz = JSON.parse(result.value ?? '');
+        // }
+      })
+      .catch((error) => {
+        console.log('master quiz nicht gefunden');
+      });
   }
 
   public async otherloadQuestion() {
@@ -93,8 +97,8 @@ export class DataService {
 
   public async loadByHTTP() {
     fetch('/assets/einQuiz.json')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.currentQuiz = data;
         console.log(data);
       });
