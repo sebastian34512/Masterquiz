@@ -57,31 +57,16 @@ describe('DataService', () => {
     expect(addedQuestion?.title).toBe('Wie gut können wir testen');
   });
 
-  //integration test
-  it('should safe and load an added question', () => {
-    const question: Question = {
-      id: '3',
-      title: 'Wie gut können wir testen',
-      a1: 'nicht gut',
-      a2: 'so lala',
-      a3: 'ganz ok',
-      a4: 'super gut',
-      correct: 4,
-    };
-
-    const quiz: Quiz = {
-      id: '1',
-      title: 'neu',
-      questions: [question],
-    };
-
+  //integration test to show spy
+  it('should call safeQuestion when calling deleteQuestion', () => {
     service.addQuestion(question);
+    const spy = spyOn(service, 'safeQuestion');
 
-    service.safeQuestion();
+    service.deleteQuestion(question);
 
-    service.loadQuestion();
+    expect(spy).toHaveBeenCalled();
 
-    expect(service.currentQuiz).toEqual(quiz);
+    expect(service.currentQuiz.questions.length).toBe(0);
   });
 });
 6.	ng test
@@ -95,6 +80,28 @@ E2E:
 5.	in einem cy.ts file: /// <reference types="cypress" />
 6.	npm run e2e
 7.	npm install --save-dev cy-mobile-commands
+
+/// <reference types="cypress" />
+
+describe('QuestionList Component', () => {
+  beforeEach(() => {
+    // Öffne die Anwendung vor jedem Test
+    cy.visit('/'); // Passe die URL an deine lokale Entwicklungsumgebung an
+    cy.viewport('iphone-5');
+
+    //get all ion-buttons
+    cy.get('ion-button').eq(1).click();
+
+    cy.wait(1000);
+
+    cy.get('ion-button').eq(0).click();
+  });
+
+  it('should display two questions at the beginning', () => {
+    // get all ion-item-sliding elements and check if there are two
+    var items = cy.get('ion-item-sliding');
+    items.should('have.length', 2);
+  });
 
 CI:
 1.	package.json: 
@@ -126,15 +133,14 @@ jobs:
         run: npm install
 
       - name: Run tests
-
         run: npm test
+
   cypress-run:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

@@ -79,12 +79,21 @@ export class DataService {
   public loadQuestion() {
     Preferences.get({ key: 'quiz' })
       .then((result) => {
-        // if (result.value) {
-        this.currentQuiz = JSON.parse(result.value ?? '');
-        // }
+        if (result.value) {
+          this.currentQuiz = JSON.parse(result.value ?? '');
+          console.log('has value');
+        } else {
+          console.log('has no value');
+
+          this.currentQuiz = {
+            id: '1',
+            title: 'neu',
+            questions: [],
+          };
+        }
       })
       .catch((error) => {
-        console.log('master quiz nicht gefunden');
+        console.log('parsing error');
       });
   }
 

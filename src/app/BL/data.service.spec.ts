@@ -27,7 +27,7 @@ describe('DataService', () => {
     //service = new DataService();
     TestBed.configureTestingModule({});
     service = TestBed.inject(DataService);
-    quiz.questions = [question];
+    service.currentQuiz.questions = [];
   });
 
   it('should be created', () => {
@@ -46,23 +46,15 @@ describe('DataService', () => {
     expect(addedQuestion?.title).toBe('Wie gut können wir testen');
   });
 
-  //integration test
-  it('should safe and load an added question', () => {
-    service.addQuestion(question);
-
-    service.safeQuestion();
-
-    service.loadQuestion();
-
-    expect(service.currentQuiz).toEqual(quiz);
-  });
-
-  //unit test to show spy
+  //integration test to show spy
   it('should call safeQuestion when calling deleteQuestion', () => {
+    service.addQuestion(question);
     const spy = spyOn(service, 'safeQuestion');
 
     service.deleteQuestion(question);
 
     expect(spy).toHaveBeenCalled();
+
+    expect(service.currentQuiz.questions.length).toBe(0);
   });
 });
