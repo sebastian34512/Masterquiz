@@ -57,4 +57,23 @@ describe('DataService', () => {
 
     expect(service.currentQuiz.questions.length).toBe(0);
   });
+
+  it('should find a question by id', () => {
+    service.addQuestion(question);
+
+    const foundQuestion = service.getQuestion(question.id);
+
+    expect(foundQuestion).toBeDefined();
+    expect(foundQuestion?.title).toBe('Wie gut können wir testen');
+  });
+
+  it('should create a new question when called with empty id', () => {
+    const spy = spyOn(service, 'newQuestion');
+    spy.and.callThrough();
+    const newQuestion = service.getQuestion('');
+    expect(spy).toHaveBeenCalled();
+
+    expect(newQuestion).toBeDefined();
+    expect(newQuestion?.title).toBe('');
+  });
 });

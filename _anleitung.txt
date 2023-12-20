@@ -16,11 +16,13 @@ TestBed.configureTestingModule({
         },
       ],
     });
+    
 4.	bei question-list test den code in before each:
 TestBed.configureTestingModule({
       declarations: [QuestionListPage],
       imports: [FormsModule, IonicModule], // Hinzugefügt
     });
+
 5.	data test erstellen:
 describe('DataService', () => {
   let service: DataService;
@@ -146,6 +148,59 @@ jobs:
         with:
           build: npm run build
           start: npm start
+          
+
+Weitere Tests:
+Aufgaben:
+1.	Unit Test: überprüfen, ob die Methode getQuestion eine Frage findet.
+it('should find a question by id', () => {
+    service.addQuestion(question);
+
+    const foundQuestion = service.getQuestion(question.id);
+
+    expect(foundQuestion).toBeDefined();
+    expect(foundQuestion?.title).toBe('Wie gut können wir testen');
+  });
+
+2.	Intigratation Test: überprüfen, ob newQuestion eine leere Frage zurückgibt, wenn getQuestion ohne Id aufgerufen wird.
+it('should create a new question when called with empty id', () => {
+    const spy = spyOn(service, 'newQuestion');
+    spy.and.callThrough();
+    const newQuestion = service.getQuestion('');
+    expect(spy).toHaveBeenCalled();
+
+    expect(newQuestion).toBeDefined();
+    expect(newQuestion?.title).toBe('');
+  });
+
+3.	End-to-End Test: Nachdem in ein leeres Quiz eine Frage hinzugefügt wird soll in der Question List die Frage erscheinen
+/// <reference types="cypress" />
+
+describe('Question Component', () => {
+  beforeEach(() => {
+    // Öffne die Anwendung vor jedem Test
+    cy.visit('/question-list'); // Passe die URL an deine lokale Entwicklungsumgebung an
+    cy.viewport('iphone-5');
+  });
+
+  it('should be empty at the beginning', () => {
+    cy.get('ion-item-sliding').should('have.length', 0);
+  });
+
+  it('should add a question on clicking the plus button', () => {
+    cy.get('ion-button').eq(0).click();
+
+    cy.get('ion-item')
+      .eq(1)
+      .children()
+      .type('Wie viele Beine hat ein Hund?')
+      .should('have.value', 'Wie viele Beine hat ein Hund?');
+    cy.get('ion-back-button').eq(1).click();
+    cy.get('ion-item-sliding').should('have.length', 1);
+  });
+});
+
+
 
 
 
