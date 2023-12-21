@@ -1,4 +1,4 @@
-Setup
+Setup -fix für ursprüngles Masterquiz
 1.	npm install -g @angular/cli
 2.	async aus tests von komponenten entfernen (quiz, question, question-list)
 3.	bei question-page test den code in before each einfügen:
@@ -16,7 +16,7 @@ TestBed.configureTestingModule({
         },
       ],
     });
-    
+
 4.	bei question-list test den code in before each:
 TestBed.configureTestingModule({
       declarations: [QuestionListPage],
